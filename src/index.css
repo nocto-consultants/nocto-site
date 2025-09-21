@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nocto Design System - Professional CCTV Consulting Brand
+Primary: Deep Navy (#020c45) - Trust, security, professionalism
+Secondary: Light Grey (#F5F5F5) - Clean, modern backgrounds  
+Accent: Amber (#FFC857) - Attention, highlights, CTAs
+Typography: Poppins - Modern, professional sans-serif
+*/
+
+@layer base {
+  :root {
+    /* Core Brand Colors */
+    --background: 0 0% 98%;
+    --foreground: 216 100% 8%;
+    
+    /* Deep Navy Primary - Professional Security Brand */
+    --primary: 216 100% 8%;
+    --primary-foreground: 0 0% 100%;
+    --primary-muted: 216 50% 15%;
+    
+    /* Light Grey Secondary - Clean Backgrounds */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 216 100% 8%;
+    
+    /* Amber Accent - Call-to-Action Highlights */
+    --accent: 45 100% 67%;
+    --accent-foreground: 216 100% 8%;
+    --accent-muted: 45 60% 85%;
+
+    /* Badge styling for better contrast */
+    --badge-bg: 45 76% 20%;
+    --badge-text: 45 76% 95%;
+    
+    /* Professional Card System */
+    --card: 0 0% 100%;
+    --card-foreground: 216 100% 8%;
+    --card-hover: 0 0% 97%;
+    
+    /* Form & Input Elements */
+    --input: 0 0% 100%;
+    --input-foreground: 216 100% 8%;
+    --border: 216 20% 88%;
+    --ring: 216 100% 8%;
+    
+    /* Text Hierarchy */
+    --muted: 0 0% 96%;
+    --muted-foreground: 216 20% 45%;
+    
+    /* Interactive States */
+    --popover: 0 0% 100%;
+    --popover-foreground: 216 100% 8%;
+    
+    /* Status Colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(216 100% 8%), hsl(216 50% 15%));
+    --gradient-accent: linear-gradient(135deg, hsl(45 100% 67%), hsl(45 80% 75%));
+    --gradient-hero: linear-gradient(135deg, hsl(216 100% 8%) 0%, hsl(216 80% 12%) 100%);
+    
+    /* Professional Shadows */
+    --shadow-card: 0 4px 6px -1px hsl(216 100% 8% / 0.1), 0 2px 4px -1px hsl(216 100% 8% / 0.06);
+    --shadow-elevated: 0 10px 15px -3px hsl(216 100% 8% / 0.1), 0 4px 6px -2px hsl(216 100% 8% / 0.05);
+    --shadow-button: 0 1px 2px 0 hsl(216 100% 8% / 0.05);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Professional Dark Mode (Optional - Nocto primarily uses light mode) */
+  .dark {
+    --background: 216 100% 4%;
+    --foreground: 0 0% 98%;
+    
+    --primary: 0 0% 98%;
+    --primary-foreground: 216 100% 8%;
+    
+    --secondary: 216 50% 8%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --accent: 45 100% 67%;
+    --accent-foreground: 216 100% 8%;
+    
+    --card: 216 80% 6%;
+    --card-foreground: 0 0% 98%;
+    
+    --input: 216 50% 8%;
+    --input-foreground: 0 0% 98%;
+    --border: 216 30% 18%;
+    
+    --muted: 216 50% 8%;
+    --muted-foreground: 216 20% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Professional Typography Scale */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+  
+  /* Professional Interactive Elements */
+  .professional-button {
+    @apply font-medium transition-all duration-300 transform hover:scale-[1.02] focus:scale-[1.02];
+    box-shadow: var(--shadow-button);
+  }
+  
+  .professional-card {
+    @apply bg-card border border-border rounded-lg transition-all duration-300;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .professional-card:hover {
+    @apply bg-card-hover;
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-2px);
+  }
+  
+  /* Hero Section Specific */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+  
+  /* Professional Form Elements */
+  .professional-input {
+    @apply bg-input border border-border rounded-md px-3 py-2 text-input-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200;
+  }
+}
