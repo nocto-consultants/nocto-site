@@ -1,11 +1,7 @@
-// File: /api/contact.cjs
-// CommonJS serverless function (works even when package.json has "type": "module")
+// File: /api/contact.js  (ESM)
+import { Resend } from 'resend';
 
-const { Resend } = require('resend');
-
-function isEmail(v) {
-  return typeof v === 'string' && /.+@.+\..+/.test(v);
-}
+const isEmail = (v) => typeof v === 'string' && /.+@.+\..+/.test(v);
 
 async function readJSON(req) {
   const chunks = [];
@@ -14,7 +10,7 @@ async function readJSON(req) {
   try { return raw ? JSON.parse(raw) : {}; } catch { return {}; }
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -52,7 +48,7 @@ module.exports = async function handler(req, res) {
     const S = services ? String(services).slice(0,200) : '';
     const M = String(message).slice(0,5000);
 
-    // 1) Notify owner
+    // 1) Owner notification
     await resend.emails.send({
       from: FROM,
       to: TO,
@@ -76,7 +72,7 @@ module.exports = async function handler(req, res) {
     });
 
     return res.status(200).json({ ok: true });
-  } catch (err) {
+  } catch {
     return res.status(500).json({ error: 'Failed to send' });
   }
-};
+}
