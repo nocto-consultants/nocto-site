@@ -1,3 +1,4 @@
+// File: src/pages/Contact.tsx
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,27 +13,39 @@ const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // NEW: track shadcn Select value so we can submit it
+  const [service, setService] = useState<string>("");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     const formData = new FormData(e.currentTarget);
     const data = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
       company: formData.get('company') as string,
-      services: formData.get('services') as string,
+      services: formData.get('services') as string, // now set via hidden input below
       message: formData.get('message') as string,
       hp: formData.get('hp') as string, // honeypot field
     };
 
+    // NEW: guard because shadcn Select isn't a native <select>
+    if (!data.services) {
+      toast({
+        title: "Please select a service",
+        description: "Choose the service you're interested in before submitting.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
@@ -44,6 +57,7 @@ const Contact = () => {
           description: "We'll get back to you within 24 hours with a personalized quote.",
         });
         (e.target as HTMLFormElement).reset();
+        setService(""); // reset the Select
       } else {
         toast({
           title: "Submission Failed",
@@ -58,7 +72,7 @@ const Contact = () => {
         variant: "destructive",
       });
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -174,18 +188,23 @@ const Contact = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="services">Service Interested In *</Label>
-                      <Select name="services" required>
-                        <SelectTrigger className="professional-input">
+
+                      {/* NEW: Controlled shadcn Select */}
+                      <Select value={service} onValueChange={setService}>
+                        <SelectTrigger id="services" className="professional-input">
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
-                          {services.map((service) => (
-                            <SelectItem key={service} value={service}>
-                              {service}
+                          {services.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
+
+                      {/* NEW: hidden input so FormData includes the selected service */}
+                      <input type="hidden" name="services" value={service} />
                     </div>
 
                     <div className="space-y-2">
@@ -305,7 +324,7 @@ const Contact = () => {
           <h2 className="text-3xl font-heading font-bold mb-6">
             Urgent Support Needed?
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+        <p className="text-xl text-muted-foreground mb-8">
             For urgent incident footage retrieval or emergency support, contact us immediately.
           </p>
           <div className="flex justify-center">
